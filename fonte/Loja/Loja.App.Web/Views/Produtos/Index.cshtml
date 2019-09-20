@@ -1,0 +1,157 @@
+﻿@model IEnumerable<Loja.Domain.Produto>
+
+@{
+    ViewBag.Title = "Cadastro de Produtos";
+}
+
+<h2>Cadastro de Produtos</h2>
+
+<p>
+    @*@Html.ActionLink("Add", "Create", "Add", new object { }, new { @class = "btn btn-primary" })*@
+
+    <a href="@Url.Action("Create", "Produtos")" class="btn btn-success">
+        <i class="fa fa-plus"></i>
+        <span>
+            <strong>Cadastrar Novo</strong>
+        </span>
+    </a>
+
+    <a href="@Url.Action("Grafico", "Produtos")" class="btn btn-primary">
+        <i class="fa fa-plus"></i>
+        <span>
+            <strong>Gráfico Posição Estoq. Por Fabricante</strong>
+        </span>
+    </a>
+</p>
+<table class="table" style="font-size: 12px">
+    <tr>
+        <th>
+            Produto
+        </th>
+        <th>
+            Nome
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </th>
+        <th>
+            Categoria
+        </th>
+        <th>
+            Fabricante
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Estoque)
+        </th>
+        <th>
+            Preço Custo
+        </th>
+        <th>
+            Preço Venda
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tags)
+        </th>
+
+        <th>
+            Usuario Cadastro
+        </th>
+
+        <th>
+            Data Cadastro
+        </th>
+        <th style="width: 200px"></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <img src="@Html.Raw(item.ImagemURL)" width="70" height="70" alt="a description of the image">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categoria.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fabricante.Nome)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Estoque)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecoCusto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecoVenda)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Ativo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tags)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioCadastro.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataCadastro)
+            </td>
+            <td style="font-size: 12px">
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-xs", @style = "font-size: 12px" }) |
+                @Html.ActionLink("Visualizar", "Details", new { id = item.Id }, new { @class = "btn btn-info btn-xs" }) |
+                @Html.ActionLink("Excluir", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-xs" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section scripts{
+    <script>
+
+        function SuccessAlert()
+        {
+            $.notify({
+                message: 'Realizado com Sucesso!'
+            },
+            {
+                type: 'success'
+            });
+        }
+
+        function ErrorAlert() {
+            $.notify({
+                message: 'Falha ao realizar a operação!'
+            },
+            {
+                type: 'danger'
+            });
+        }
+
+        $(document).ready(function () {
+            @if(TempData["success"] != null)
+            {
+                @Html.Raw("SuccessAlert();");
+            }
+
+            @if(TempData["error"] != null)
+            {
+                @Html.Raw("ErrorAlert();");
+            }
+        })
+    </script>
+}

@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Loja.Business.PosicaoEstoqueFabricanteChartViewModel>
+
+@{
+    ViewBag.Title = "Loja - Gráfico";
+}
+
+<script src="~/Scripts/chartjs/Chart.min.js"></script>
+<script src="~/Scripts/chartjs/utils.js"></script>
+
+<style>
+    canvas {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+</style>
+
+<h2>Posição de Estoque por Fabricante</h2>
+
+<div id="container" style="width: 75%;">
+    <canvas id="canvas"></canvas>
+</div>
+
+<script>
+    var MONTHS = [@Html.Raw(ViewBag.chartLabels)]; //['Apple', 'Sansumg'];
+
+        var color = Chart.helpers.color;
+                    var horizontalBarChartData = {
+                        labels: [@Html.Raw(ViewBag.chartLabels)],
+			datasets: [{
+
+                label: 'Estoque',
+                //backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                borderColor: window.chartColors.red,
+                borderWidth: 1,
+                data: [
+                    [@Html.Raw(ViewBag.chartValues)]
+                //,
+                //randomScalingFactor(),
+                //randomScalingFactor(),
+                //randomScalingFactor(),
+                //randomScalingFactor(),
+                //randomScalingFactor()
+                ]
+            }
+            //, {
+			//	label: 'Dataset 2',
+			//	backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+			//	borderColor: window.chartColors.blue,
+			//	data: [
+			//		randomScalingFactor(),
+			//		randomScalingFactor(),
+			//		randomScalingFactor(),
+			//		randomScalingFactor(),
+			//		randomScalingFactor(),
+			//		randomScalingFactor(),
+			//		randomScalingFactor()
+			//	]
+            //}
+			]
+
+		};
+
+        window.onload = function() {
+            var ctx = document.getElementById('canvas').getContext('2d');
+            window.myHorizontalBar = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: horizontalBarChartData,
+                options: {
+                // Elements options apply to all of the options unless overridden in a dataset
+                // In this case, we are setting the border of each horizontal bar to be 2px wide
+                elements: {
+                    rectangle: {
+                        borderWidth: 2,
+						}
+                },
+					responsive: true,
+					legend: {
+                    position: 'right',
+					},
+					title: {
+                    display: true,
+						text: 'Gráfico / Fabricante / Estoque'
+
+                    }
+            }
+        });
+
+		};
+
+		var colorNames = Object.keys(window.chartColors);
+</script>
+
+<div>
+    @Html.ActionLink("Voltar a Listagem", "Index")
+</div>
